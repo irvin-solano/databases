@@ -16,7 +16,7 @@ describe('Persistent Node Chat Server', () => {
   beforeAll((done) => {
     dbConnection.connect();
 
-       const tablename = 'messages'; // TODO: fill this out
+    const tablename = 'messages'; // TODO: fill this out
 
     /* Empty the db table before all tests so that multiple tests
      * (or repeated runs of the tests)  will not fail when they should be passing
@@ -35,6 +35,7 @@ describe('Persistent Node Chat Server', () => {
     // Create a user on the chat server database.
     axios.post(`${API_URL}/users`, { username })
       .then(() => {
+        console.log('received a succesfull response from posting a user');
         // Post a message to the node chat server:
         return axios.post(`${API_URL}/messages`, { username, message, roomname });
       })
@@ -59,17 +60,28 @@ describe('Persistent Node Chat Server', () => {
         });
       })
       .catch((err) => {
+        console.log('Error: ', err);
         throw err;
       });
   });
 
   it('Should output all messages from the DB', (done) => {
     // Let's insert a message into the db
-       const queryString = 'SELECT * FROM messages';
-       const queryArgs = [];
+    const username = 'Irvin';
+    const message = 'Our test message';
+    const roomname = 'Goodbye';
+    // Create a user on the chat server database.
+    axios.post(`${API_URL}/users`, { username })
+      .then(() => {
+        console.log('received a succesfull response from posting a user');
+        // Post a message to the node chat server:
+        return axios.post(`${API_URL}/messages`, { username, message, roomname });
+      });
+    const queryString = 'SELECT * FROM messages';
+    const queryArgs = [];
     /* TODO: The exact query string and query args to use here
      * depend on the schema you design, so I'll leave them up to you. */
-    dbConnection.query(queryString, queryArgs, (err) => {
+    dbConnection.query(queryString, [], (err) => {
       if (err) {
         throw err;
       }
@@ -78,8 +90,9 @@ describe('Persistent Node Chat Server', () => {
       axios.get(`${API_URL}/messages`)
         .then((response) => {
           const messageLog = response.data;
-          expect(messageLog[0].text).toEqual(message);
-          expect(messageLog[0].roomname).toEqual(roomname);
+          console.log(messageLog);
+          expect(messageLog[1].message).toEqual(message);
+          expect(messageLog[1].roomname).toEqual(roomname);
           done();
         })
         .catch((err) => {

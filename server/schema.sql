@@ -8,14 +8,14 @@ CREATE TABLE messages (
   /* Describe your table here.*/
   id int auto_increment not null primary key,
   message varchar(140) not null,
-  username int not null,
-  roomname int not null
+  username varchar(30) not null,
+  roomname varchar(30) not null
 );
 
 /* Create other tables and define schemas for them here! */
 create table usernames (
   id int auto_increment not null primary key,
-  username varchar(30) not null
+  user varchar(30) not null
 );
 
 create table rooms (

@@ -3,8 +3,16 @@
  * before running this example. Documentation is at http://sequelizejs.com/
  */
 
+//connecting to a dabatabase
 var Sequelize = require('sequelize');
-var db = new Sequelize('chatter', 'root', '');
+var db = new Sequelize({
+  username: 'root',
+  password: null,
+  database: 'chat',
+  host: '127.0.0.1',
+  dialect: 'mysql'
+});
+
 /* TODO this constructor takes the database name, username, then password.
  * Modify the arguments if you need to */
 
