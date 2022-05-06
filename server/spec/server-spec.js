@@ -60,7 +60,7 @@ describe('Persistent Node Chat Server', () => {
         });
       })
       .catch((err) => {
-        console.log('Error: ', err);
+        console.log('Error: ');
         throw err;
       });
   });
@@ -90,7 +90,7 @@ describe('Persistent Node Chat Server', () => {
       axios.get(`${API_URL}/messages`)
         .then((response) => {
           const messageLog = response.data;
-          console.log(messageLog);
+          //console.log(messageLog);
           expect(messageLog[1].message).toEqual(message);
           expect(messageLog[1].roomname).toEqual(roomname);
           done();
